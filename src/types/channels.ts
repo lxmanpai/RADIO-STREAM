@@ -6,4 +6,5 @@ export interface ChannelItem {
   link: string;
   status: string;
   rating: number;
+  thumbnail: string;
 }

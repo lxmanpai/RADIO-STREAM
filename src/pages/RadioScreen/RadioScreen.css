@@ -1,5 +1,5 @@
 .radio-screen {
   display: flex;
   gap: 1.25rem;
-  padding: 1.25rem;
+  height: 97vh;
 }
