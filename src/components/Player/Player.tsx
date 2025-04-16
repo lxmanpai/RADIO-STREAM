@@ -19,34 +19,34 @@ const Player = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const progressRef = useRef<HTMLInputElement>(null);
 
-  // Update progress bar as the audio plays
-  const updateProgressBar = () => {
-    if (playerRef?.current) {
-      const current = playerRef?.current.currentTime;
-
-      // Set the progress bar to loop after reaching the end
-      if (current === playerRef?.current.duration) {
-        playerRef.current.currentTime = 0;
-      }
-      setCurrentTime(current);
-      if (progressRef.current) {
-        progressRef.current.value = String(current);
-      }
-    }
-  };
-
-  const updateSeekMeta = () => {
-    if (playerRef?.current?.duration) {
-      if (progressRef.current) {
-        progressRef.current.max = String(playerRef?.current?.duration);
-      }
-    }
-  };
-
   // Set up the play/pause state when the audio element changes
   useEffect(() => {
     const player = playerRef?.current;
     if (!player) return;
+
+    // Update progress bar as the audio plays
+    const updateProgressBar = () => {
+      if (playerRef?.current) {
+        const current = playerRef?.current.currentTime;
+
+        // Set the progress bar to loop after reaching the end
+        if (current === playerRef?.current.duration) {
+          playerRef.current.currentTime = 0;
+        }
+        setCurrentTime(current);
+        if (progressRef.current) {
+          progressRef.current.value = String(current);
+        }
+      }
+    };
+
+    const updateSeekMeta = () => {
+      if (playerRef?.current?.duration) {
+        if (progressRef.current) {
+          progressRef.current.max = String(playerRef?.current?.duration);
+        }
+      }
+    };
 
     player.addEventListener("timeupdate", updateProgressBar);
     player.addEventListener("loadedmetadata", updateSeekMeta);
@@ -56,7 +56,7 @@ const Player = () => {
       player.removeEventListener("timeupdate", updateProgressBar);
       player.removeEventListener("loadedmetadata", updateSeekMeta);
     };
-  }, [playerRef?.current]);
+  }, [playerRef, selectedStation]);
 
   // Handle audio error events
   const handleAudioError = (
