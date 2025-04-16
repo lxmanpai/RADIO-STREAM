@@ -4,59 +4,11 @@ import { STREAM_ERROR } from "../../utils/constants";
 import Focusable from "../Focusable/Focusable";
 
 import "./Player.css";
-import { useEffect, useState, useRef } from "react";
-
-const formatTime = (time: number) => {
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-};
 
 const Player = () => {
   const { focusedKey, setFocusedKey } = useFocus();
   const { selectedStation, playerRef, streamError, setRadioStreamError } =
     useRadio();
-  const [currentTime, setCurrentTime] = useState(0);
-  const progressRef = useRef<HTMLInputElement>(null);
-
-  // Set up the play/pause state when the audio element changes
-  useEffect(() => {
-    const player = playerRef?.current;
-    if (!player) return;
-
-    // Update progress bar as the audio plays
-    const updateProgressBar = () => {
-      if (playerRef?.current) {
-        const current = playerRef?.current.currentTime;
-
-        // Set the progress bar to loop after reaching the end
-        if (current === playerRef?.current.duration) {
-          playerRef.current.currentTime = 0;
-        }
-        setCurrentTime(current);
-        if (progressRef.current) {
-          progressRef.current.value = String(current);
-        }
-      }
-    };
-
-    const updateSeekMeta = () => {
-      if (playerRef?.current?.duration) {
-        if (progressRef.current) {
-          progressRef.current.max = String(playerRef?.current?.duration);
-        }
-      }
-    };
-
-    player.addEventListener("timeupdate", updateProgressBar);
-    player.addEventListener("loadedmetadata", updateSeekMeta);
-
-    // Cleanup event listeners on unmount
-    return () => {
-      player.removeEventListener("timeupdate", updateProgressBar);
-      player.removeEventListener("loadedmetadata", updateSeekMeta);
-    };
-  }, [playerRef, selectedStation]);
 
   // Handle audio error events
   const handleAudioError = (
@@ -64,24 +16,6 @@ const Player = () => {
   ) => {
     console.error("Audio failed to load", e);
     setRadioStreamError(STREAM_ERROR);
-  };
-
-  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (playerRef?.current) {
-      const newTime = parseFloat(e.target.value);
-      playerRef.current.currentTime = newTime;
-      setCurrentTime(newTime);
-    }
-  };
-
-  // Handle focus on the seekbar (audio element)
-  const handleFocus = () => {
-    setFocusedKey("seeker");
-
-    // Focus the audio element (seeker)
-    if (progressRef?.current) {
-      progressRef?.current.focus();
-    }
   };
 
   return (
@@ -104,45 +38,26 @@ const Player = () => {
             />
           </Focusable>
 
-          {/*Hidden audio player*/}
-          <audio
-            autoPlay
-            ref={playerRef}
-            className="audio-player"
-            controls
-            onError={handleAudioError}
-          >
-            <source src={selectedStation?.link} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
-
           <div className="controls">
-            {/* Time display */}
-            <div className="time-display">
-              <span>{formatTime(currentTime)}</span>
-            </div>
-
             <Focusable
               focusKey="seeker"
               focusStyles={false}
-              customClassname="seeker-focusable"
+              customClassname={`seeker-focusable ${
+                focusedKey === "seeker" ? "focused-shadow" : ""
+              }`}
               isFocused={focusedKey === "seeker"}
-              onFocus={handleFocus} // Focus the seekbar on focus
+              onFocus={() => setFocusedKey("seeker")} // Focus the seekbar on focus
             >
-              <input
-                ref={progressRef}
-                type="range"
-                min="0"
-                max="100"
-                step="0.1"
-                value={currentTime}
-                onChange={handleProgressChange}
-                onFocus={handleFocus}
-                aria-label="Audio Progress"
-                className={`seekbar ${
-                  focusedKey === "seeker" ? "focused-shadow" : ""
-                }`}
-              />
+              <audio
+                autoPlay
+                ref={playerRef}
+                className="audio-player"
+                controls
+                onError={handleAudioError}
+              >
+                <source src={selectedStation?.link} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
             </Focusable>
           </div>
 

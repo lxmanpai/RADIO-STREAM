@@ -6,7 +6,6 @@
 }
 
 .audio-player {
-  display: none;
   width: 100%;
   filter: brightness(1.2);
 }
@@ -35,27 +34,8 @@ input[type="range"]:focus {
 .seeker-focusable {
   flex: 1;
   border-radius: 2rem;
-}
-
-.seekbar {
-  width: 100%;
-  height: 8px;
-  appearance: none;
-  background: linear-gradient(to right, #ff69b4, #8a2be2);
-  border-radius: 2px;
-}
-
-.seekbar:focus {
-  box-shadow: 0 0rem 1rem rgba(255, 100, 232, 0.4);
-}
-
-.seekbar::-webkit-slider-thumb {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: #ff69b4;
-  border-radius: 50%;
-  cursor: pointer;
+  padding: 0;
+  line-height: 0;
 }
 
 .show-name {

@@ -4,8 +4,13 @@ import { useRadio } from "./useRadio";
 
 export const useKeyNavigation = (focusableKeys: string[]) => {
   const { focusedKey, setFocusedKey } = useFocus();
-  const { setSelectedStation, channels, playerRef, setRadioStreamError } =
-    useRadio();
+  const {
+    selectedStation,
+    setSelectedStation,
+    channels,
+    playerRef,
+    setRadioStreamError,
+  } = useRadio();
 
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
@@ -66,7 +71,7 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
 
         case "ArrowRight":
           // Move focus to the player if on a channel
-          if (focusedKey.startsWith("channel-") && playerRef?.current) {
+          if (focusedKey.startsWith("channel-") && selectedStation) {
             setSelectedItem(focusedKey);
             nextKey = "thumbnail";
           }
@@ -116,6 +121,7 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
     setFocusedKey,
     focusableKeys,
     setSelectedStation,
+    selectedStation,
     selectedItem,
     getChannelById,
     handlePlayPause,
