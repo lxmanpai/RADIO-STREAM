@@ -1,0 +1,58 @@
+import { ChannelItem } from "../types/channels";
+
+export const CHANNEL_DATA: ChannelItem[] = [
+  {
+    id: 1,
+    serial: "0001",
+    title: "BBC Radio 1 (UK)",
+    description: "This is the BBC Radio 1 channel.",
+    link: "http://stream.live.vc.bbcmedia.co.uk/bbc_radio_one",
+    status: "active",
+    rating: 4.5,
+  },
+  {
+    id: 2,
+    serial: "0002",
+    title: "Radio Paradise (US)",
+    description: "This is the Radio Paradise (US) channel.",
+    link: "https://stream.radioparadise.com/mp3-128",
+    status: "active",
+    rating: 4.2,
+  },
+  {
+    id: 3,
+    serial: "0003",
+    title: "Classic FM (UK)",
+    description: "This is the Classic FM (UK) channel.",
+    link: "http://media-ice.musicradio.com:80/ClassicFM",
+    status: "active",
+    rating: 3.5,
+  },
+  {
+    id: 4,
+    serial: "0004",
+    title: "KEXP (Seattle, US)",
+    description: "This is the KEXP (Seattle, US) channel.",
+    link: "https://kexp.streamguys1.com/kexp64.aac",
+    status: "active",
+    rating: 3.8,
+  },
+  {
+    id: 5,
+    serial: "0005",
+    title: "Jazz24 (US)",
+    description: "This is the Jazz24 (US) channel.",
+    link: "http://live.wostreaming.net/direct/kplu-jazz24-ssc-96mp3",
+    status: "active",
+    rating: 4.1,
+  },
+  {
+    id: 6,
+    serial: "0006",
+    title: "Radio France Internationale",
+    description: "This is the Radio France Internationale (France) channel.",
+    link: "https://live-rfi.cdn.dvmr.fr/rfi/rfi_fr.m3u",
+    status: "active",
+    rating: 2.2,
+  },
+];

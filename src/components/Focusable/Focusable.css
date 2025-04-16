@@ -1,0 +1,11 @@
+.focusable {
+  outline: none;
+  padding: 0.625rem;
+  transition: all 0.2s ease;
+  box-shadow: none;
+}
+
+.focused {
+  color: #ff64e8;
+  box-shadow: 0 0rem 1rem rgba(255, 100, 232, 0.4);
+}
