@@ -4,11 +4,11 @@ import { RadioProvider } from "./providers/RadioProvider/RadioProvider";
 
 const App = () => {
   return (
-    <FocusProvider>
-      <RadioProvider>
+    <RadioProvider>
+      <FocusProvider>
         <RadioScreen />
-      </RadioProvider>
-    </FocusProvider>
+      </FocusProvider>
+    </RadioProvider>
   );
 };
 

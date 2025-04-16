@@ -18,6 +18,7 @@
 
 .channel-list {
   overflow-y: auto;
+  height: calc(97vh - 52px);
 }
 
 .channel-item {

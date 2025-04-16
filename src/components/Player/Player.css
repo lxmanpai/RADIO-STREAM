@@ -6,36 +6,35 @@
 }
 
 .audio-player {
+  display: none;
   width: 100%;
   filter: brightness(1.2);
-  background-color: #1c1b29;
 }
 
-.audio-player:focus {
+input[type="range"] {
   outline: none;
-  border: none;
-  box-shadow: none;
 }
 
-.audio-player:focus::-webkit-media-controls-panel,
-.audio-player:focus::-webkit-media-controls-play-button,
-.audio-player:focus::-webkit-media-controls-volume-slider,
-.audio-player:focus::-webkit-media-controls-seekbar {
+input[type="range"]:focus {
   outline: none;
   box-shadow: none;
+  border: none;
 }
 
-.player-button {
-  padding: 0.6rem 1.4rem;
-  font-size: 1.6rem;
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  background: linear-gradient(135deg, #ff69b4, #8a2be2); /* pink to purple */
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin-bottom: 1rem;
-  will-change: transform, box-shadow;
+.focused-shadow {
+  box-shadow: 0 0rem 2rem rgba(255, 100, 232, 0.6);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.seeker-focusable {
+  flex: 1;
+  border-radius: 2rem;
 }
 
 .seekbar {
@@ -46,25 +45,38 @@
   border-radius: 2px;
 }
 
+.seekbar:focus {
+  box-shadow: 0 0rem 1rem rgba(255, 100, 232, 0.4);
+}
+
 .seekbar::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: white;
+  background: #ff69b4;
   border-radius: 50%;
   cursor: pointer;
 }
 
-.player-button-focused {
-  box-shadow: 0 0rem 1rem rgba(255, 100, 232, 0.4);
-  transform: scale(1.05);
+.show-name {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-top: 2rem;
+}
+
+.thumbnail {
+  border-radius: 0.5rem;
+  height: 120px;
+  width: 120px;
+  margin-bottom: 2rem;
+  border: 4px solid white;
 }
 
 .title {
   font-size: 1.8rem;
   font-weight: 500;
   color: #ff4081;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 .stream-error {
@@ -83,15 +95,19 @@
 
 .station-details .title-section {
   width: 40%;
+  text-align: left;
 }
 
 .station-details .station-title {
-  color: #ff4081;
+  color: #f15dcd;
   font-size: 1.8rem;
+  font-weight: 500;
+  margin-left: 1.5rem;
 }
 
 .station-details .ratings {
   font-size: 1.4rem;
+  margin-left: 1.5rem;
 }
 
 .station-details .other-details {
