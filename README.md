@@ -30,12 +30,18 @@ A smart TV-friendly radio streaming app built with **React**, **Vite**, and remo
    npm install
    ```
 
-   Run locally
+Run locally
 
+```bash
 npm run dev
+```
+
 Build for production
 
+```bash
 npm run build
+```
+
 📡 Stream Sample
 This app works great with internet radio stream links like:
 
@@ -47,14 +53,11 @@ No default focus borders or white outlines
 
 Audio player background removed for seamless TV UX
 
-📌 TODO
-Add channel browsing UI
+## 📌 TODO
 
-Add volume control
+- Add channel browsing UI
+- Add volume control
+- Add support for pause/resume with remote button
+- Visual feedback on stream buffering or error
 
-Add support for pause/resume with remote button
-
-Visual feedback on stream buffering or error
-
-📄 License
-MIT
+📄 License: MIT
