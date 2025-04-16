@@ -94,12 +94,12 @@
   font-size: 1.4rem;
 }
 
-.other-details {
+.station-details .other-details {
   flex: 1;
   font-size: 1.2rem;
 }
 
-.v-divider {
+.station-details .v-divider {
   width: 1px;
   height: 5rem;
   background-color: #2b2540;

@@ -42,11 +42,11 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
           // Move focus down if not at the last item
           if (
             currentIndex < focusableKeys.length - 1 &&
-            focusableKeys[currentIndex + 1] !== "player"
+            focusableKeys[currentIndex + 1] !== "player-button"
           ) {
             nextKey = focusableKeys[currentIndex + 1];
           }
-          if (focusedKey === "player") {
+          if (focusedKey === "player-button") {
             nextKey = "seeker";
             if (playerRef?.current) {
               playerRef.current.focus();
@@ -56,11 +56,11 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
 
         case "ArrowUp":
           // Move focus up if not at the first item
-          if (focusedKey !== "player" && currentIndex > 0) {
+          if (focusedKey !== "player-button" && currentIndex > 0) {
             nextKey = focusableKeys[currentIndex - 1];
           }
           if (focusedKey === "seeker") {
-            nextKey = "player";
+            nextKey = "player-button";
           }
           break;
 
@@ -68,13 +68,13 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
           // Move focus to the player if on a channel
           if (focusedKey.startsWith("channel-") && playerRef?.current) {
             setSelectedItem(focusedKey);
-            nextKey = "player";
+            nextKey = "player-button";
           }
           break;
 
         case "ArrowLeft":
           // Move focus back to the previously selected channel or the first channel
-          if (focusedKey === "player") {
+          if (focusedKey === "player-button") {
             nextKey = selectedItem ?? focusableKeys[0];
           }
           break;
@@ -86,14 +86,14 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
               getChannelById(parseInt(focusedKey.split("-")[1]))
             );
             setRadioStreamError(null);
-          } else if (focusedKey === "player" && playerRef?.current) {
+          } else if (focusedKey === "player-button" && playerRef?.current) {
             handlePlayPause();
           }
           break;
 
         case "Space":
           // Play/pause logic for the player
-          if (focusedKey === "player") {
+          if (focusedKey === "player-button") {
             handlePlayPause();
           }
           break;

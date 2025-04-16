@@ -44,7 +44,7 @@ const Focusable: React.FC<Props> = ({
       `focusable ${focusStyles && isFocused ? "focused" : ""} ${
         customClassname ?? ""
       }`,
-    [focusStyles, isFocused]
+    [focusStyles, isFocused, customClassname]
   );
 
   return (

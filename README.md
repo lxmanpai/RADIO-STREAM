@@ -1,63 +1,128 @@
 # 🎧 Radio Streaming TV App
 
-A smart TV-friendly radio streaming app built with **React**, **Vite**, and remote-friendly **arrow-key navigation**. Users can browse and play live radio streams, with support for error handling, visual focus styles, and custom audio controls.
+A smart TV-friendly radio streaming app built with **React**, **Vite**, and remote-friendly **arrow-key navigation**. This app allows users to browse and play live radio streams with support for error handling, visual focus styles, and custom audio controls. It is optimized for TV environments and remote control navigation.
+
+---
 
 ## 🚀 Features
 
-- 🔊 Stream internet radio (e.g. Radio Paradise)
-- 🎮 Remote/keyboard navigation using custom `Focusable` components
-- ⏯️ Play/Pause toggle with visual focus indicators
-- ❌ Graceful error handling for stream issues
-- 🧭 Auto focus handling (audio controls, seekbar)
-- ⚡ Built with Vite for fast performance
+- **🔊 Stream Internet Radio**: Play live radio streams using URLs (e.g., Radio Paradise).
+- **🎮 Remote/Keyboard Navigation**: Navigate the app using arrow keys or a remote control, thanks to custom `Focusable` components.
+- **⏯️ Play/Pause Toggle**: Easily toggle playback with a single button press.
+- **❌ Error Handling**: Graceful handling of stream errors with visual feedback.
+- **🧭 Auto Focus Management**: Automatically focus on key UI elements like the audio controls or seek bar.
+- **⚡ Built with Vite**: Enjoy fast performance and a smooth development experience.
+
+---
 
 ## 📦 Tech Stack
 
-- [React](https://reactjs.org/)
-- [Vite](https://vitejs.dev/)
-- Custom focus management (`useFocus` hook)
-- Audio playback using native HTML `<audio>` tag
+- **[React](https://reactjs.org/)**: For building the user interface.
+- **[Vite](https://vitejs.dev/)**: For fast builds and development.
+- **Custom Hooks**:
+  - `useFocus`: Manages focus for remote/keyboard navigation.
+  - `useRadio`: Handles radio logic and player references.
+- **HTML `<audio>` Tag**: For native audio playback.
 
-## 📂 Project Structure (Relevant Snippets)
+---
 
-/src ├── components/ │ ├── Player.tsx # Main radio player component │ ├── Focusable/Focusable # Wrapper for remote navigation ├── hooks/ │ ├── useFocus.ts # Custom focus key hook │ ├── useRadio.ts # Hook to manage radio logic and player ref ├── utils/ │ ├── constants.ts # Titles, error messages ├── styles/ │ ├── Player.css # Custom styling for focus, buttons, audio
+## 📂 Project Structure
+
+```
+/src
+├── components/
+│   ├── Player              # Main radio player component
+│   ├── Focusable/Focusable # Wrapper for remote navigation
+├── hooks/
+│   ├── useFocus.ts         # Custom focus key hook
+│   ├── useRadio.ts         # Hook to manage radio logic and player ref
+├── providers/
+│   ├── FocusProvider       # Provider for focus navigations
+│   ├── RadioProvider       # Provider to handle radio data and playback
+├── utils/
+│   ├── constants.ts        # Titles, error messages
+```
+
+---
 
 ## 🧑‍💻 Development
 
-1. **Install dependencies**
+### 1. **Install Dependencies**
 
-   ```bash
-   npm install
-   ```
+Run the following command to install all required dependencies:
 
-Run locally
+```bash
+npm install
+```
+
+### 2. **Run Locally**
+
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Build for production
+This will launch the app locally. Open your browser and navigate to the provided URL (usually `http://localhost:3000`).
+
+### 3. **Build for Production**
+
+To create a production-ready build, run:
 
 ```bash
 npm run build
 ```
 
-📡 Stream Sample
-This app works great with internet radio stream links like:
+This will generate optimized files in the `dist` folder.
 
-https://stream.radioparadise.com/mp3-128
-🎨 UI Highlights
-Gradient button with pink-purple styling
+---
 
-No default focus borders or white outlines
+## 📡 Stream Sample
 
-Audio player background removed for seamless TV UX
+This app works great with internet radio stream links. For example:
+
+- [Radio Paradise](https://stream.radioparadise.com/mp3-128)
+
+Simply provide a valid stream URL, and the app will handle playback.
+
+---
+
+## 🕹️ How to Use the App
+
+1. **Launch the App**:
+
+   - Open the app in your browser or deploy it to a smart TV environment.
+
+2. **Navigate with Arrow Keys**:
+
+   - Use the arrow keys on your keyboard or remote to move between focusable elements (e.g., channels, play button).
+
+3. **Play a Stream**:
+
+   - Select a channel or enter a stream URL to start playback.
+
+4. **Control Playback**:
+
+   - Use the "Enter" or "Space" key to toggle play/pause.
+
+5. **Error Handling**:
+   - If a stream fails to load, the app will display an error message.
+
+---
 
 ## 📌 TODO
 
-- Add channel browsing UI
-- Add volume control
-- Add support for pause/resume with remote button
-- Visual feedback on stream buffering or error
+- Add channel browsing UI.
+- Add volume control.
+- Add support for pause/resume with remote button.
+- Provide visual feedback for stream buffering or errors.
 
-📄 License: MIT
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. Feel free to use, modify, and distribute it as needed.
+
+---
+
+Let me know if you need further updates or additional sections!
