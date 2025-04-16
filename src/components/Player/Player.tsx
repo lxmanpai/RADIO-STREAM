@@ -1,6 +1,7 @@
 import { useFocus } from "../../hooks/useFocus";
 import { useRadio } from "../../hooks/useRadio";
 import { PLAYER_TITLE, STREAM_ERROR } from "../../utils/constants";
+import Button from "../Button/Button";
 import Focusable from "../Focusable/Focusable";
 
 import "./Player.css";
@@ -18,7 +19,9 @@ const Player = () => {
   // Memoize the button class name to avoid recalculating it on every render
   const buttonClassName = useMemo(
     () =>
-      `player-button ${focusedKey === "player" ? "player-button-focused" : ""}`,
+      `player-button ${
+        focusedKey === "player-button" ? "player-button-focused" : ""
+      }`,
     [focusedKey]
   );
 
@@ -81,14 +84,14 @@ const Player = () => {
 
           {/* Play/Pause button */}
           <Focusable
-            focusKey="player"
+            focusKey="player-button"
             focusStyles={false}
-            isFocused={focusedKey === "player"}
-            onFocus={() => setFocusedKey("player")}
+            isFocused={focusedKey === "player-button"}
+            onFocus={() => setFocusedKey("player-button")}
           >
-            <button onClick={handlePlayPause} className={buttonClassName}>
+            <Button onClick={handlePlayPause} className={buttonClassName}>
               {isPlaying ? "Pause" : "Play"}
-            </button>
+            </Button>
           </Focusable>
 
           {/* Audio player with focusable seekbar */}
