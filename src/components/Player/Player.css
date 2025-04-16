@@ -6,7 +6,7 @@
 }
 
 .audio-player {
-  /* display: none; */
+  display: none;
   width: 100%;
   filter: brightness(1.2);
 }
@@ -95,18 +95,19 @@ input[type="range"]:focus {
 
 .station-details .title-section {
   width: 40%;
+  text-align: left;
 }
 
 .station-details .station-title {
-  color: #ff4081;
+  color: #f15dcd;
   font-size: 1.8rem;
   font-weight: 500;
-  margin-left: 1rem;
+  margin-left: 1.5rem;
 }
 
 .station-details .ratings {
   font-size: 1.4rem;
-  margin-left: 1rem;
+  margin-left: 1.5rem;
 }
 
 .station-details .other-details {
