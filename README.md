@@ -8,7 +8,7 @@ A smart TV-friendly radio streaming app built with **React**, **Vite**, and remo
 
 - **🔊 Stream Internet Radio**: Play live radio streams using URLs (e.g., Radio Paradise).
 - **🎮 Remote/Keyboard Navigation**: Navigate the app using arrow keys or a remote control, thanks to custom `Focusable` components.
-- **⏯️ Play/Pause Toggle**: Easily toggle playback with a single button press.
+- **⏯️ Play/Pause Toggle**: Easily toggle playback with a single button press or by clicking the play/pause button.
 - **❌ Error Handling**: Graceful handling of stream errors with visual feedback.
 - **🧭 Auto Focus Management**: Automatically focus on key UI elements like the audio controls or seek bar.
 - **⚡ Built with Vite**: Enjoy fast performance and a smooth development experience.
@@ -104,8 +104,15 @@ Simply provide a valid stream URL, and the app will handle playback.
 4. **Control Playback**:
 
    - Use the "Enter" or "Space" key to toggle play/pause.
+   - Alternatively, click the **Play/Pause** button on the screen to control playback.
 
-5. **Error Handling**:
+5. **Seekbar Behavior**:
+
+   - The seekbar is **not draggable** and always reflects the current playback progress for live audio streams.
+   - Since live streams have no defined endpoint (the duration is effectively infinite), the seekbar is designed to play continuously without allowing manual seeking.
+
+6. **Error Handling**:
+
    - If a stream fails to load, the app will display an error message.
 
 ---

@@ -36,13 +36,11 @@ input[type="range"]:focus {
   background: transparent;
   border: 1px solid #fff;
   color: inherit;
-  padding: 0.5rem;
+  padding: 0.75rem;
   margin: 0;
   font: inherit;
   cursor: pointer;
   border-radius: 50%;
-  height: 1.875rem;
-  width: 1.875rem;
   display: flex;
   align-items: center;
   justify-content: center;
