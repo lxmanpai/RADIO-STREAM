@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useFocus } from "./useFocus";
 import { useRadio } from "./useRadio";
+import { PLAYER_FOCUS_POINTS } from "../utils/constants";
 
 export const useKeyNavigation = (focusableKeys: string[]) => {
   const { focusedKey, setFocusedKey } = useFocus();
@@ -9,13 +10,14 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
 
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
-  // Memoize the getChannelById function to avoid recalculating it on every render
+  // Memoized function to get a channel by its ID
+  // This avoids recalculating the function on every render
   const getChannelById = useMemo(
     () => (id: number) => channels.find((channel) => channel.id === id) ?? null,
     [channels]
   );
 
-  // Function to handle play/pause logic
+  // Function to handle play/pause logic for the audio player
   const handlePlayPause = useCallback(() => {
     if (playerRef?.current) {
       const isPlaying =
@@ -32,10 +34,10 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
   }, [playerRef]);
 
   useEffect(() => {
-    // Debounced keydown handler to prevent rapid key presses
+    // Keydown handler to manage navigation and actions
     const handleKeyDown = (e: KeyboardEvent) => {
-      const currentIndex = focusableKeys.indexOf(focusedKey);
-      let nextKey = null;
+      const currentIndex = focusableKeys.indexOf(focusedKey); // Get the current focus index
+      let nextKey = null; // Variable to store the next focusable key
 
       switch (e.code) {
         case "ArrowDown":
@@ -46,10 +48,11 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
           ) {
             nextKey = focusableKeys[currentIndex + 1];
           }
+          // Special case: Move focus from "thumbnail" to "play"
           if (focusedKey === "thumbnail") {
-            nextKey = "seeker";
+            nextKey = "play";
             if (playerRef?.current) {
-              playerRef.current.focus();
+              playerRef.current.focus(); // Focus the player element
             }
           }
           break;
@@ -59,41 +62,43 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
           if (focusedKey !== "thumbnail" && currentIndex > 0) {
             nextKey = focusableKeys[currentIndex - 1];
           }
-          if (focusedKey === "seeker") {
+          // Special case: Move focus from "play" to "thumbnail"
+          if (focusedKey === "play") {
             nextKey = "thumbnail";
           }
           break;
 
         case "ArrowRight":
-          // Move focus to the player if on a channel
+          // Move focus to the player if currently on a channel
           if (focusedKey.startsWith("channel-") && playerRef?.current) {
-            setSelectedItem(focusedKey);
+            setSelectedItem(focusedKey); // Save the currently selected channel
             nextKey = "thumbnail";
           }
           break;
 
         case "ArrowLeft":
           // Move focus back to the previously selected channel or the first channel
-          if (focusedKey === "thumbnail") {
+          if (PLAYER_FOCUS_POINTS.includes(focusedKey)) {
             nextKey = selectedItem ?? focusableKeys[0];
           }
           break;
 
         case "Enter":
+          // Handle "Enter" key actions
           if (focusedKey.startsWith("channel-")) {
             // Select the channel and reset any stream errors
             setSelectedStation(
               getChannelById(parseInt(focusedKey.split("-")[1]))
             );
-            setRadioStreamError(null);
-          } else if (focusedKey === "seeker" && playerRef?.current) {
-            handlePlayPause();
+            setRadioStreamError(null); // Clear any existing stream errors
+          } else if (focusedKey === "play" && playerRef?.current) {
+            handlePlayPause(); // Toggle play/pause
           }
           break;
 
         case "Space":
-          // Play/pause logic for the player
-          if (focusedKey === "seeker") {
+          // Handle "Space" key for play/pause
+          if (focusedKey === "play") {
             handlePlayPause();
           }
           break;
@@ -102,6 +107,7 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
           return; // Early return for unhandled keys
       }
 
+      // Update the focused key if a valid next key is determined
       if (nextKey) {
         setFocusedKey(nextKey);
       }
@@ -109,6 +115,7 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
 
     // Add the keydown event listener
     window.addEventListener("keydown", handleKeyDown);
+
     // Cleanup the event listener on unmount
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [

@@ -6,6 +6,7 @@ import Player from "../../components/Player/Player";
 
 import "./RadioScreen.css";
 import { useRadio } from "../../hooks/useRadio";
+import { PLAYER_FOCUS_POINTS } from "../../utils/constants";
 
 const RadioScreen = () => {
   const { channels } = useRadio();
@@ -14,8 +15,7 @@ const RadioScreen = () => {
   const focusableKeys = useMemo(
     () => [
       ...channels.map((chl) => `channel-${chl.id}`),
-      "thumbnail",
-      "seeker",
+      ...PLAYER_FOCUS_POINTS,
     ],
     [channels]
   );

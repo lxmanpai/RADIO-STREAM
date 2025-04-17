@@ -2,10 +2,12 @@ import { useFocus } from "../../hooks/useFocus";
 import { useRadio } from "../../hooks/useRadio";
 import { STREAM_ERROR } from "../../utils/constants";
 import Focusable from "../Focusable/Focusable";
+import { SlControlPlay, SlControlPause } from "react-icons/sl";
 
 import "./Player.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useMemo } from "react";
 
+// Utility function to format time in MM:SS format
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
@@ -16,49 +18,54 @@ const Player = () => {
   const { focusedKey, setFocusedKey } = useFocus();
   const { selectedStation, playerRef, streamError, setRadioStreamError } =
     useRadio();
-  const [currentTime, setCurrentTime] = useState(0);
-  const progressRef = useRef<HTMLInputElement>(null);
+  const [currentTime, setCurrentTime] = useState(0); // Current playback time
 
-  // Set up the play/pause state when the audio element changes
+  // Effect to handle audio events and update progress
   useEffect(() => {
     const player = playerRef?.current;
     if (!player) return;
 
-    // Update progress bar as the audio plays
-    const updateProgressBar = () => {
+    // Function to update the current playback time
+    const updateCurrentTime = () => {
       if (playerRef?.current) {
-        const current = playerRef?.current.currentTime;
-
-        // Set the progress bar to loop after reaching the end
-        if (current === playerRef?.current.duration) {
-          playerRef.current.currentTime = 0;
-        }
-        setCurrentTime(current);
-        if (progressRef.current) {
-          progressRef.current.value = String(current);
-        }
+        setCurrentTime(playerRef.current.currentTime);
       }
     };
 
-    const updateSeekMeta = () => {
-      if (playerRef?.current?.duration) {
-        if (progressRef.current) {
-          progressRef.current.max = String(playerRef?.current?.duration);
-        }
-      }
-    };
+    // Add event listeners
+    player.addEventListener("timeupdate", updateCurrentTime);
 
-    player.addEventListener("timeupdate", updateProgressBar);
-    player.addEventListener("loadedmetadata", updateSeekMeta);
+    // Call immediately to initialize the seekbar
+    updateCurrentTime();
 
     // Cleanup event listeners on unmount
     return () => {
-      player.removeEventListener("timeupdate", updateProgressBar);
-      player.removeEventListener("loadedmetadata", updateSeekMeta);
+      player.removeEventListener("timeupdate", updateCurrentTime);
     };
   }, [playerRef, selectedStation]);
 
-  // Handle audio error events
+  // Memoized value to determine if the audio is playing
+  const isPlaying = useMemo(() => {
+    const player = playerRef?.current;
+    return player && !player.paused && !player.ended && player.readyState > 2;
+  }, [
+    playerRef?.current?.paused,
+    playerRef?.current?.ended,
+    playerRef?.current?.readyState,
+  ]);
+
+  // Function to toggle play/pause
+  const handlePlayPause = () => {
+    if (playerRef?.current) {
+      if (isPlaying) {
+        playerRef.current.pause();
+      } else {
+        playerRef.current.play();
+      }
+    }
+  };
+
+  // Function to handle audio errors
   const handleAudioError = (
     e: React.SyntheticEvent<HTMLAudioElement, Event>
   ) => {
@@ -66,30 +73,21 @@ const Player = () => {
     setRadioStreamError(STREAM_ERROR);
   };
 
-  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (playerRef?.current) {
-      const newTime = parseFloat(e.target.value);
-      playerRef.current.currentTime = newTime;
-      setCurrentTime(newTime);
-    }
-  };
-
-  // Handle focus on the seekbar (audio element)
+  // Function to handle focus on the seekbar
   const handleFocus = () => {
-    setFocusedKey("seeker");
-
-    // Focus the audio element (seeker)
-    if (progressRef?.current) {
-      progressRef?.current.focus();
-    }
+    setFocusedKey("play");
   };
 
   return (
     <div className="player-container">
       {selectedStation ? (
         <div>
-          {/* Play/Pause button */}
-          <div className="show-name">Melody Time</div>
+          {/* Station name */}
+          <div className="show-name">
+            {selectedStation?.title || "Melody Time"}
+          </div>
+
+          {/* Thumbnail */}
           <Focusable
             focusKey="thumbnail"
             focusStyles={false}
@@ -101,10 +99,11 @@ const Player = () => {
                 focusedKey === "thumbnail" ? "focused-shadow" : ""
               }`}
               src={selectedStation.thumbnail}
+              alt="Station Thumbnail"
             />
           </Focusable>
 
-          {/*Hidden audio player*/}
+          {/* Hidden audio player */}
           <audio
             autoPlay
             ref={playerRef}
@@ -116,34 +115,58 @@ const Player = () => {
             Your browser does not support the audio element.
           </audio>
 
+          {/* Controls */}
           <div className="controls">
+            {/* Play/Pause button */}
+            <Focusable
+              focusKey="play"
+              focusStyles={false}
+              isFocused={focusedKey === "play"}
+              onFocus={handleFocus} // Focus the play/pause button
+            >
+              <button
+                className={`play ${
+                  focusedKey === "play" ? "focused-shadow focused-play" : ""
+                }`}
+                onClick={handlePlayPause}
+              >
+                {isPlaying ? (
+                  <SlControlPause
+                    size={28}
+                    className={focusedKey === "play" ? "focused-icon" : ""}
+                  />
+                ) : (
+                  <SlControlPlay
+                    size={28}
+                    className={focusedKey === "play" ? "focused-icon" : ""}
+                  />
+                )}
+              </button>
+            </Focusable>
+
             {/* Time display */}
             <div className="time-display">
               <span>{formatTime(currentTime)}</span>
             </div>
 
-            <Focusable
-              focusKey="seeker"
-              focusStyles={false}
-              customClassname="seeker-focusable"
-              isFocused={focusedKey === "seeker"}
-              onFocus={handleFocus} // Focus the seekbar on focus
-            >
-              <input
-                ref={progressRef}
-                type="range"
-                min="0"
-                max="100"
-                step="0.1"
-                value={currentTime}
-                onChange={handleProgressChange}
-                onFocus={handleFocus}
-                aria-label="Audio Progress"
-                className={`seekbar ${
-                  focusedKey === "seeker" ? "focused-shadow" : ""
-                }`}
-              />
-            </Focusable>
+            {/* Seekbar */}
+            <input
+              readOnly
+              type="range"
+              min="0"
+              max="100"
+              step="0.1"
+              value={100} // Loop progress for live streams
+              onFocus={handleFocus}
+              aria-label="Audio Progress"
+              className="seekbar"
+            />
+
+            {/* Live indicator */}
+            <div className="live-indicator">
+              <span className="indicator">🔴</span>
+              <span>LIVE</span>
+            </div>
           </div>
 
           {/* Display stream error if any */}
