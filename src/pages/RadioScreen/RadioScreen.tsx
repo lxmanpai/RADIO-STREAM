@@ -12,11 +12,7 @@ const RadioScreen = () => {
 
   // Memoize focusable keys to avoid recalculating them on every render
   const focusableKeys = useMemo(
-    () => [
-      ...channels.map((chl) => `channel-${chl.id}`),
-      "thumbnail",
-      "seeker",
-    ],
+    () => [...channels.map((chl) => `channel-${chl.id}`), "thumbnail", "play"],
     [channels]
   );
 

@@ -18,11 +18,7 @@ export const FocusProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const focusableKeys = useMemo(
-    () => [
-      ...channels.map((chl) => `channel-${chl.id}`),
-      "thumbnail",
-      "seeker",
-    ],
+    () => [...channels.map((chl) => `channel-${chl.id}`), "thumbnail", "play"],
     [channels]
   );
 

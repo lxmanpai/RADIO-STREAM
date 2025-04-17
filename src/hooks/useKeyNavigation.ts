@@ -47,7 +47,7 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
             nextKey = focusableKeys[currentIndex + 1];
           }
           if (focusedKey === "thumbnail") {
-            nextKey = "seeker";
+            nextKey = "play";
             if (playerRef?.current) {
               playerRef.current.focus();
             }
@@ -59,7 +59,7 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
           if (focusedKey !== "thumbnail" && currentIndex > 0) {
             nextKey = focusableKeys[currentIndex - 1];
           }
-          if (focusedKey === "seeker") {
+          if (focusedKey === "play") {
             nextKey = "thumbnail";
           }
           break;
@@ -86,14 +86,14 @@ export const useKeyNavigation = (focusableKeys: string[]) => {
               getChannelById(parseInt(focusedKey.split("-")[1]))
             );
             setRadioStreamError(null);
-          } else if (focusedKey === "seeker" && playerRef?.current) {
+          } else if (focusedKey === "play" && playerRef?.current) {
             handlePlayPause();
           }
           break;
 
         case "Space":
           // Play/pause logic for the player
-          if (focusedKey === "seeker") {
+          if (focusedKey === "play") {
             handlePlayPause();
           }
           break;
