@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { FocusContext } from "../../contexts/FocusContext";
 import { useKeyNavigation } from "../../hooks/useKeyNavigation";
 import { useRadio } from "../../hooks/useRadio";
+import { PLAYER_FOCUS_POINTS } from "../../utils/constants";
 
 export const FocusProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -24,7 +25,10 @@ export const FocusProvider: React.FC<{ children: React.ReactNode }> = ({
   // Generate a list of focusable keys based on the available channels
   // Includes "thumbnail" and "play" as additional focusable elements
   const focusableKeys = useMemo(
-    () => [...channels.map((chl) => `channel-${chl.id}`), "thumbnail", "play"],
+    () => [
+      ...channels.map((chl) => `channel-${chl.id}`),
+      ...PLAYER_FOCUS_POINTS,
+    ],
     [channels]
   );
 
