@@ -6,13 +6,7 @@ import { SlControlPlay, SlControlPause } from "react-icons/sl";
 
 import "./Player.css";
 import { useEffect, useState, useMemo } from "react";
-
-// Utility function to format time in MM:SS format
-const formatTime = (time: number) => {
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-};
+import { formatTime } from "../../utils/functions";
 
 const Player = () => {
   const { focusedKey, setFocusedKey } = useFocus();
